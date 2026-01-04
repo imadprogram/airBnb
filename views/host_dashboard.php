@@ -28,7 +28,6 @@ $rentals = $rentControll->getRentals();
 </head>
 
 <body class="bg-gray-50">
-
     <nav class="bg-white border-b border-gray-200 fixed w-full z-10 top-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -38,8 +37,15 @@ $rentals = $rentControll->getRentals();
                     </h1>
                 </div>
 
-                <div class="flex items-center gap-4">
-                    <span class="hidden sm:block text-gray-700 font-medium">Hello, <?php echo $_SESSION['name'] ?></span>
+                <div class="flex items-center gap-6">
+
+                    <a href="index.php" class="text-sm font-medium text-gray-500 hover:text-rose-600 transition">
+                        Switch to traveling
+                    </a>
+
+                    <div class="h-6 w-px bg-gray-200"></div> <span class="hidden sm:block text-gray-700 font-medium">
+                        Hello, <?php echo htmlspecialchars($_SESSION['name']); ?>
+                    </span>
 
                     <a href="logout.php" class="text-gray-500 hover:text-rose-600 transition flex items-center gap-2">
                         <i class="fa-solid fa-right-from-bracket"></i>
@@ -99,17 +105,17 @@ $rentals = $rentControll->getRentals();
                                         </td>
                                     </tr>
                                 <?php else: ?>
-                                    <?php foreach($rentals as $rental): ?>
+                                    <?php foreach ($rentals as $rental): ?>
                                         <tr class="hover:bg-gray-50 transition">
                                             <td class="p-4 flex items-center gap-4">
-                                                <img src="../<?php echo $rental['image']?>" alt="House" class="w-16 h-16 rounded-lg object-cover">
+                                                <img src="../<?php echo $rental['image'] ?>" alt="House" class="w-16 h-16 rounded-lg object-cover">
                                                 <div>
-                                                    <p class="font-bold text-gray-800"><?php echo $rental['title']?></p>
+                                                    <p class="font-bold text-gray-800"><?php echo $rental['title'] ?></p>
                                                     <p class="text-xs text-gray-500"></p>
                                                 </div>
                                             </td>
-                                            <td class="p-4 text-gray-700 font-medium">$<?php echo $rental['price']?></td>
-                                            <td class="p-4 text-gray-500"><?php echo $rental['city']?></td>
+                                            <td class="p-4 text-gray-700 font-medium">$<?php echo $rental['price'] ?></td>
+                                            <td class="p-4 text-gray-500"><?php echo $rental['city'] ?></td>
                                             <td class="p-4 text-right space-x-2">
                                                 <a href="#" class="text-blue-500 hover:text-blue-700 font-medium text-sm">Edit</a>
                                                 <a href="#" class="text-red-500 hover:text-red-700 font-medium text-sm">Delete</a>

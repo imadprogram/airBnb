@@ -58,11 +58,11 @@ class RentalController {
         }
     }
 
-    public function removeRental() {
+    public function updateRental() {
 
     }
-
-    public function updateRental() {
+    
+    public function removeRental() {
 
     }
 
