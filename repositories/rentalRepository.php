@@ -37,8 +37,8 @@ class RentalRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function update($host_id , $title , $price , $city , $image){
-        $sql = "UPDATE rentals SET title = :newTitle , price = :newPrice , city = :newCity , image = :newImage WHERE host_id = :host_id";
+    public function update($id , $host_id , $title , $price , $city , $image){
+        $sql = "UPDATE rentals SET title = :newTitle , price = :newPrice , city = :newCity , image = :newImage WHERE host_id = :host_id AND id = :id";
 
         $stmt = $this->connection->prepare($sql);
 
@@ -47,7 +47,9 @@ class RentalRepository {
                 'newPrice' => $price,
                 'newCity' => $city,
                 'newImage' => $image,
-                'host_id' => $host_id
+                'host_id' => $host_id,
+                'id' => $id
                 ]);
     }
+
 }

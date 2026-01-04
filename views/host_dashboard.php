@@ -117,7 +117,7 @@ $rentals = $rentControll->getRentals();
                                             <td class="p-4 text-gray-700 font-medium">$<?php echo $rental['price'] ?></td>
                                             <td class="p-4 text-gray-500"><?php echo $rental['city'] ?></td>
                                             <td class="p-4 text-right space-x-2">
-                                                <a href="#" class="text-blue-500 hover:text-blue-700 font-medium text-sm">Edit</a>
+                                                <a href="update_rental.php?id=<?= $rental['id'] ?>" class="text-blue-500 hover:text-blue-700 font-medium text-sm">Edit</a>
                                                 <a href="#" class="text-red-500 hover:text-red-700 font-medium text-sm">Delete</a>
                                             </td>
                                         </tr>

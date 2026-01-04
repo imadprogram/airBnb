@@ -1,6 +1,6 @@
 <?php
 namespace Ycode\AirBnb\Controllers;
-session_start();
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Ycode\AirBnb\Repositories\RentalRepository;
@@ -59,9 +59,14 @@ class RentalController {
     }
 
     public function updateRental() {
+        if(!isset($_SESSION['user_id'])){
+            header('Location: ../views/login.php');
+            exit;
+        }
+
 
     }
-    
+
     public function removeRental() {
 
     }
