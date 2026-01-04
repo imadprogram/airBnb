@@ -14,6 +14,7 @@ if (!isset($_SESSION['user_id']) && $_SESSION['role'] != 'host') {
 $rentControll = new RentalController;
 
 $rentals = $rentControll->getRentals();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
