@@ -52,4 +52,16 @@ class RentalRepository {
                 ]);
     }
 
+    public function find($id , $host_id){
+        $sql = "SELECT * FROM rentals WHERE id = :id AND host_id = :host_id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute([
+            'id' => $id,
+            'host_id' => $host_id
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

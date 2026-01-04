@@ -1,12 +1,18 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../vendor/autoload.php';
+use Ycode\AirBnb\Repositories\RentalRepository;
+
 if(!isset($_GET['id'])){
     die('error');
 }
 
 $id = $_GET['id'];
 
+$repo = new RentalRepository;
+
+$rental = $repo->find($id , $_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
