@@ -1,0 +1,39 @@
+<?php
+
+namespace Ycode\AirBnb\Repositories;
+use Ycode\AirBnb\Core\Database;
+use PDO;
+
+
+class RentalRepository {
+    private $connection;
+
+
+    public function __construct() {
+        $this->connection = Database::getInstance()->getConnection();
+    }
+
+    public function create($data) {
+        $sql = "INSERT INTO rentals(host_id , title , price , city , image) VALUES(:host_id , :title , :price , :city , :image)";
+
+        $stmt = $this->connection->prepare($sql);
+
+        return $stmt->execute([
+            'host_id' => $data['host_id'],
+            'title' => $data['title'],
+            'price' => $data['price'],
+            'city' => $data['city'],
+            'image' => $data['image']
+        ]);
+    }
+
+    public function getAll($host_id){
+        $sql = "SELECT * FROM rentals WHERE host_id = :host_id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute(['host_id' => $host_id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}

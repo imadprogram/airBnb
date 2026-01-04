@@ -1,0 +1,15 @@
+{
+    "name": "ycode/air-bnb",
+    "autoload": {
+        "psr-4": {
+            "Ycode\\AirBnb\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "imadprogram",
+            "email": "kimad7141@gmail.com"
+        }
+    ],
+    "require": {}
+}
