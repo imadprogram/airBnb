@@ -99,7 +99,7 @@ if (!isset($_SESSION['user_id'])) {
                                 </div>
                                 <p class="text-xs text-gray-500">PNG, JPG up to 5MB</p>
                             </div>
-                            <input id="file-upload" name="image" type="file" class="sr-only" accept="image/png, image/jpeg, image/jpg" onchange="previewImage(event)">
+                            <input required id="file-upload" name="image" type="file" class="sr-only" accept="image/png, image/jpeg, image/jpg" onchange="previewImage(event)">
                         </label>
 
                         <div id="preview-container" class="hidden mt-2 relative rounded-xl border border-gray-200 shadow-sm overflow-hidden group">
