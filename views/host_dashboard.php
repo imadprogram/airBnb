@@ -7,7 +7,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Ycode\AirBnb\Controllers\RentalController;
 
-if (!isset($_SESSION['user_id']) && $_SESSION['role'] != 'host') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'host') {
     header('Location: login.php');
     exit;
 }
