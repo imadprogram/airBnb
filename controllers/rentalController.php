@@ -27,6 +27,7 @@ class RentalController {
         }
     }
 
+    // for host
     public function getRentals() {
         return $this->rentalRepo->getAll($_SESSION['user_id']);
     }
@@ -136,6 +137,10 @@ class RentalController {
         }
     }
 
+    // for traveler
+    public function getListings(){
+        return $this->rentalRepo->getAllListings();
+    }
 }
 
 

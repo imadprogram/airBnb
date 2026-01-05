@@ -27,6 +27,7 @@ class RentalRepository {
         ]);
     }
 
+    // get all for host rentals
     public function getAll($host_id){
         $sql = "SELECT * FROM rentals WHERE host_id = :host_id";
 
@@ -74,5 +75,16 @@ class RentalRepository {
         ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // get all for traveler available rentals
+    public function getAllListings(){
+        $sql = "SELECT * FROM rentals";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
