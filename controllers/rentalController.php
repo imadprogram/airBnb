@@ -19,6 +19,12 @@ class RentalController {
 
     public function __construct(){
         $this->rentalRepo = new RentalRepository;
+
+
+        if(!isset($_SESSION['user_id'])){
+            header('Location: ../views/login.php');
+            exit;
+        }
     }
 
     public function getRentals() {
@@ -99,7 +105,19 @@ class RentalController {
     }
 
     public function removeRental() {
+        $rental_id = $_POST['id'];
 
+        if($this->rentalRepo->delete($rental_id ,$_SESSION['user_id'])){
+            $_SESSION['toast'] = [
+                'type' => 'success',
+                'message' => 'deleted succussfully'
+            ];
+        }else{
+            $_SESSION['toast'] = [
+                'type' => 'failed',
+                'message' => 'sorry .. there was an error !'
+            ];
+        }
     }
 
 }
@@ -116,6 +134,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $controller->addRental();
         }else if($_POST['action'] == 'update_rental'){
             $controller->updateRental();
+        }else if($_POST['action'] == 'delete_rental'){
+            $controller->removeRental();
+            header('Location: ../views/host_dashboard.php');
         }
 
     }

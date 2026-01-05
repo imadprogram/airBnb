@@ -52,6 +52,17 @@ class RentalRepository {
                 ]);
     }
 
+    public function delete($id , $host_id){
+        $sql = "DELETE FROM rentals WHERE id = :id AND host_id = :host_id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        return $stmt->execute([
+                    'id' => $id,
+                    'host_id' => $host_id
+                ]);
+    }
+
     public function find($id , $host_id){
         $sql = "SELECT * FROM rentals WHERE id = :id AND host_id = :host_id";
 

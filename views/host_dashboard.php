@@ -1,5 +1,5 @@
 <?php
-if(session_status() == PHP_SESSION_NONE){
+if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
@@ -20,12 +20,14 @@ $rentals = $rentControll->getRentals();
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Host Dashboard - Airbnb</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body class="bg-gray-50">
@@ -119,7 +121,9 @@ $rentals = $rentControll->getRentals();
                                             <td class="p-4 text-gray-500"><?php echo $rental['city'] ?></td>
                                             <td class="p-4 text-right space-x-2">
                                                 <a href="update_rental.php?id=<?= $rental['id'] ?>" class="text-blue-500 hover:text-blue-700 font-medium text-sm">Edit</a>
-                                                <a href="#" class="text-red-500 hover:text-red-700 font-medium text-sm">Delete</a>
+                                                <button onclick="openDeleteModal(<?= $rental['id'] ?>)" class="text-red-500 hover:text-red-700 font-medium text-sm transition">
+                                                    Delete
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -163,6 +167,8 @@ $rentals = $rentControll->getRentals();
         </div>
     </div>
 
+    <?php include('partials/delete_modal.php') ?>
+    <?php include('partials/toast.php') ?>
 </body>
 
 </html>
