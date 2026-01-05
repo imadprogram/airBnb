@@ -4,6 +4,10 @@ session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 use Ycode\AirBnb\Repositories\RentalRepository;
 
+if(!isset($_SESSION['user_id'])){
+    header('Location: login.php');
+}
+
 if(!isset($_GET['id'])){
     die('error');
 }

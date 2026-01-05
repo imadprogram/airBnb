@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
+}
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -9,7 +11,6 @@ if (!isset($_SESSION['user_id']) && $_SESSION['role'] != 'host') {
     header('Location: login.php');
     exit;
 }
-
 
 $rentControll = new RentalController;
 
