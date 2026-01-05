@@ -63,7 +63,15 @@ class RentalController {
             'image' => $imagePath
         ];
         if($this->rentalRepo->create($data)){
-            header('Location: ../views/host_dashboard.php');
+            $_SESSION['toast'] = [
+                'type' => 'success',
+                'message' => 'added succussfully'
+            ];
+        }else{
+            $_SESSION['toast'] = [
+                'type' => 'failed',
+                'message' => 'sorry .. there was an error !'
+            ];
         }
     }
 
@@ -100,7 +108,15 @@ class RentalController {
 
 
         if($this->rentalRepo->update($id , $_SESSION['user_id'] , $title , $price , $city , $imagePath)){
-            header('Location: ../views/host_dashboard.php');
+            $_SESSION['toast'] = [
+                'type' => 'success',
+                'message' => 'updated succussfully'
+            ];
+        }else{
+            $_SESSION['toast'] = [
+                'type' => 'failed',
+                'message' => 'sorry .. there was an error !'
+            ];
         }
     }
 
@@ -132,8 +148,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(isset($_POST['action'])){
         if($_POST['action'] == 'create_rental'){
             $controller->addRental();
+            header('Location: ../views/host_dashboard.php');
         }else if($_POST['action'] == 'update_rental'){
             $controller->updateRental();
+            header('Location: ../views/host_dashboard.php');
         }else if($_POST['action'] == 'delete_rental'){
             $controller->removeRental();
             header('Location: ../views/host_dashboard.php');
