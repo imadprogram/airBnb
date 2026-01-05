@@ -20,7 +20,7 @@ $listings = $controller->getListings();
 </head>
 <body class="bg-white text-gray-800">
 
-    <nav class="bg-white border-b border-gray-100 fixed w-full z-50 top-0 h-20">
+    <!-- <nav class="bg-white border-b border-gray-100 fixed w-full z-50 top-0 h-20">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-full">
             <div class="flex justify-between items-center h-full">
                 
@@ -70,7 +70,7 @@ $listings = $controller->getListings();
 
             </div>
         </div>
-    </nav>
+    </nav> -->
 
     <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
         
@@ -120,7 +120,7 @@ $listings = $controller->getListings();
         <?php endif; ?>
 
     </main>
-    
+    <?php include('partials/navbar.php') ?>
 
 </body>
 </html>
