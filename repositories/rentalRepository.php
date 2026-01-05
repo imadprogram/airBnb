@@ -87,4 +87,17 @@ class RentalRepository {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // find rental details to show them when clicking on the main page
+    public function details($id){
+        $sql = "SELECT * FROM rentals WHERE id = :id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute([
+            'id' => $id
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

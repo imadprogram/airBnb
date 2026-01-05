@@ -84,7 +84,7 @@ $listings = $controller->getListings();
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
                 <?php foreach($listings as $rental): ?>
                 
-                <a href="views/details.php?id=<?= $rental['id'] ?>" class="group block cursor-pointer">
+                <a href="details.php?id=<?= $rental['id'] ?>" class="group block cursor-pointer">
                     <div class="relative aspect-[20/19] overflow-hidden rounded-xl bg-gray-200 mb-3">
                         <img src="../<?= $rental['image'] ?>" alt="<?= htmlspecialchars($rental['title']) ?>" class="h-full w-full object-cover group-hover:scale-105 transition duration-300">
                         

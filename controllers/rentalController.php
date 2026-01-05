@@ -141,6 +141,10 @@ class RentalController {
     public function getListings(){
         return $this->rentalRepo->getAllListings();
     }
+
+    public function getDetails(){
+        
+    }
 }
 
 
