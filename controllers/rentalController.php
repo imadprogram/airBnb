@@ -143,7 +143,8 @@ class RentalController {
     }
 
     public function getDetails(){
-        
+
+        return $this->rentalRepo->details($_GET['id']);
     }
 }
 

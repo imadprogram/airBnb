@@ -79,7 +79,9 @@ class RentalRepository {
 
     // get all for traveler available rentals
     public function getAllListings(){
-        $sql = "SELECT * FROM rentals";
+        $sql = "SELECT rentals.* , users.first_name AS host_first_name
+                FROM rentals
+                JOIN users ON rentals.host_id = users.id";
 
         $stmt = $this->connection->prepare($sql);
 
@@ -90,7 +92,12 @@ class RentalRepository {
 
     // find rental details to show them when clicking on the main page
     public function details($id){
-        $sql = "SELECT * FROM rentals WHERE id = :id";
+        $sql = "SELECT rentals.* ,  users.first_name AS host_first_name ,
+                                    users.last_name AS host_last_name ,
+                                    users.email AS host_email
+                FROM rentals
+                JOIN users ON rentals.host_id = users.id
+                WHERE rentals.id = :id";
 
         $stmt = $this->connection->prepare($sql);
 

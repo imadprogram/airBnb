@@ -26,7 +26,7 @@ class UserRepository {
     }
 
     public function create(User $user) {
-        $sql = "INSERT INTO users(first_name , last_name , email , password , role , company_name) VALUES(:first_name , :last_name , :email , :password , :role , :company_name)";
+        $sql = "INSERT INTO users(first_name , last_name , email , password , role ) VALUES(:first_name , :last_name , :email , :password , :role )";
 
         $stmt = $this->connection->prepare($sql);
 
@@ -36,7 +36,6 @@ class UserRepository {
                                 ':email' => $user->getEmail(),
                                 ':password' => $user->getPassword(),
                                 ':role' => $user->getRole(),
-                                ':company_name' => $user->getCompanyName()
                             ]);
     }
 }

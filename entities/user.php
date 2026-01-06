@@ -31,7 +31,6 @@ abstract class User
     public function getLastName() { return $this->lastName; }
     public function getEmail() { return $this->email; }
     public function getPassword() { return $this->password; }
-    public function getCompanyName() { return $this->company_name; }
 
 
     abstract public function canCancel($reservation);

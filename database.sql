@@ -9,6 +9,8 @@ CREATE TABLE users(
     role ENUM('admin','traveler','host') NOT NULL,
     company_name VARCHAR(255) NULL
 );
+ALTER TABLE users DROP COLUMN company_name;
+ALTER TABLE users ADD COLUMN status ENUM('active','banned') NOT NULL DEFAULT 'active';
 CREATE TABLE rentals(
     id INT PRIMARY KEY AUTO_INCREMENT,
     host_id INT NOT NULL,
@@ -23,11 +25,12 @@ CREATE TABLE reservations(
     user_id INT NOT NULL,
     rental_id INT NOT NULL,
     check_in DATE NOT NULL,
-    check_out DATE NOT NULL,
+    check_out DATE NOT NULL CHECK (check_out > check_in),
     status VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (rental_id) REFERENCES rentals(id)
 );
+ALTER TABLE reservations
 CREATE TABLE reviews(
     id INT PRIMARY KEY AUTO_INCREMENT,
     rating INT NOT NULL,
@@ -46,4 +49,4 @@ CREATE TABLE favorites(
     FOREIGN KEY (rental_id) REFERENCES rentals(id)
 )
 
-SELECT * FROM rentals;
+SELECT * FROM users;

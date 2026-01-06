@@ -4,10 +4,10 @@ session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Ycode\AirBnb\Repositories\RentalRepository;
+use Ycode\AirBnb\Controllers\RentalController;
 
-$controll = new RentalRepository;
-$rental = $controll->details($_GET['id']);
+$controll = new RentalController;
+$rental = $controll->getDetails();
 
 ?>
 <!DOCTYPE html>
@@ -64,7 +64,7 @@ $rental = $controll->details($_GET['id']);
                 
                 <div class="flex justify-between items-center border-b border-gray-200 pb-8">
                     <div>
-                        <h2 class="text-xl font-bold text-gray-900">Entire home hosted by Imad</h2>
+                        <h2 class="text-xl font-bold text-gray-900">Entire home hosted by <?= $rental['host_first_name'] ,' ',$rental['host_last_name'] ?></h2>
                         <p class="text-gray-500 text-sm mt-1">4 guests · 2 bedrooms · 2 beds · 1 bath</p>
                     </div>
                     <div class="h-12 w-12 bg-gray-900 rounded-full flex items-center justify-center text-white text-xl overflow-hidden">
@@ -192,8 +192,8 @@ $rental = $controll->details($_GET['id']);
                         <i class="fa-solid fa-user"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-xl">Hosted by Imad</h3>
-                        <p class="text-gray-500 text-sm">Joined May 2021</p>
+                        <h3 class="font-bold text-xl">Hosted by <?= $rental['host_first_name'] ?></h3>
+                        <p class="text-gray-500 text-sm"><?= $rental['host_email'] ?></p>
                     </div>
                 </div>
                 <div class="text-sm text-gray-600 space-y-2 mb-6">

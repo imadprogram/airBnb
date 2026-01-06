@@ -100,7 +100,7 @@ $listings = $controller->getListings();
                     <div class="flex justify-between items-start">
                         <div>
                             <h3 class="font-bold text-gray-900 leading-tight"><?= htmlspecialchars($rental['title']) ?> in <?= htmlspecialchars($rental['city']) ?></h3>
-                            <p class="text-gray-500 text-sm mt-1">Hosted by User #<?= $rental['host_id'] ?></p>
+                            <p class="text-gray-500 text-sm mt-1">Hosted by <?= $rental['host_first_name'] ?></p>
                             <div class="mt-2 flex items-baseline gap-1">
                                 <span class="font-bold text-gray-900">$<?= htmlspecialchars($rental['price']) ?></span>
                                 <span class="text-gray-900">night</span>
