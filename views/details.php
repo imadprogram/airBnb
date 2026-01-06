@@ -7,9 +7,13 @@ if(session_status() == PHP_SESSION_NONE){
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Ycode\AirBnb\Controllers\RentalController;
+use Ycode\AirBnb\Controllers\ReviewController;
 
 $controll = new RentalController;
 $rental = $controll->getDetails();
+
+$reviewControl = new ReviewController;
+$reviews = $reviewControl->getAll();
 
 ?>
 <!DOCTYPE html>
@@ -272,6 +276,31 @@ $rental = $controll->getDetails();
                     </div>
                 </div>
 
+                <?php foreach($reviews as $review): ?>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="h-12 w-12 bg-gray-200 rounded-full overflow-hidden">
+                                <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=random" alt="User" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-base"><?= $review['first_name'] ?></h4>
+                                <p class="text-sm text-gray-500"><?= $review['created_at'] ?></p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex text-xs text-rose-500 mb-2">
+                                <?php for($i = 0 ; $i < $review['rating'] ; $i++): ?>
+                                <i class="fa-solid fa-star"></i>
+                                <?php endfor; ?>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed text-base">
+                                <?= $review['comment'] ?>
+                            </p>
+                        </div>
+                    </div>
+
+                <?php endforeach; ?>
 
             </div>
         </div>

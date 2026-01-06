@@ -30,12 +30,11 @@ CREATE TABLE reservations(
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (rental_id) REFERENCES rentals(id)
 );
-ALTER TABLE reservations
 CREATE TABLE reviews(
     id INT PRIMARY KEY AUTO_INCREMENT,
     rating INT NOT NULL,
     comment VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at DATE DEFAULT CURRENT_DATE,
     user_id INT NOT NULL,
     rental_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),

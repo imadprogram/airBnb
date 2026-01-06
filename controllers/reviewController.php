@@ -30,6 +30,11 @@ class ReviewController {
             header("Location: ../views/details.php?id=$rental_id");
         }
     }
+
+    public function getAll(){
+        $rental_id = $_GET['id'];
+        return $this->reviewRepo->getAll($rental_id);
+    }
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
