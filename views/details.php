@@ -36,7 +36,7 @@ $rental = $controll->details($_GET['id']);
                     <span class="mx-1">·</span>
                     <span class="underline cursor-pointer">18 reviews</span>
                     <span class="mx-1">·</span>
-                    <span class="underline cursor-pointer">Marrakech, Morocco</span>
+                    <span class="underline cursor-pointer"><?= $rental['city'] ?></span>
                 </div>
                 
                 <div class="flex gap-4">
@@ -51,7 +51,7 @@ $rental = $controll->details($_GET['id']);
         </div>
 
         <div class="relative w-full aspect-video md:aspect-[2/1] rounded-xl overflow-hidden shadow-sm mb-12 group cursor-pointer bg-gray-200">
-            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop" alt="Property Cover" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            <img src="../<?= $rental['image'] ?>" alt="Property Cover" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
             
             <button class="absolute bottom-4 right-4 bg-white border border-gray-900 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-100 transition shadow-md">
                 <i class="fa-solid fa-grip-dots mr-2"></i> Show all photos
@@ -122,7 +122,7 @@ $rental = $controll->details($_GET['id']);
                         
                         <div class="flex justify-between items-end mb-6">
                             <div>
-                                <span class="text-2xl font-bold text-gray-900">$85</span>
+                                <span class="text-2xl font-bold text-gray-900">$<?= $rental['price'] ?></span>
                                 <span class="text-gray-500"> night</span>
                             </div>
                             <div class="text-sm font-semibold underline text-gray-500 cursor-pointer">
