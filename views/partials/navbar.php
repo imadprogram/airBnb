@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center h-full">
 
             <div class="flex-shrink-0 flex items-center cursor-pointer">
-                <a href="/index.php" class="text-rose-500 text-3xl">
+                <a href="../views/index.php" class="text-rose-500 text-3xl">
                     <i class="fa-brands fa-airbnb"></i>
                     <span class="font-bold text-xl ml-1 hidden md:inline">airbnb</span>
                 </a>

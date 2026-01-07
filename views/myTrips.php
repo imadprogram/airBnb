@@ -1,3 +1,17 @@
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Ycode\AirBnb\Controllers\BookingController;
+
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
+}
+
+
+$control = new BookingController;
+$getall = $control->getAll();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,11 +34,11 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
+            <?php foreach($getall as $reservation): ?>
             <div class="flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition duration-300 group relative">
                 
                 <div class="relative aspect-[4/3] overflow-hidden bg-gray-200">
-                    <img src="../uploads/listings/house_example.jpg" alt="House" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                    <img src="../<?= $reservation['image'] ?>" alt="House" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
                     
                     <div class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border shadow-sm flex items-center gap-2 bg-green-100 text-green-700 border-green-200">
                         <i class="fa-solid fa-circle-check"></i>
@@ -36,21 +50,21 @@
                     
                     <div class="mb-4">
                         <h3 class="font-bold text-lg text-gray-900 leading-tight mb-1 truncate">
-                            Sunny Loft in City Center
+                            <?= $reservation['title'] ?>
                         </h3>
                         <p class="text-sm text-gray-500 truncate">
-                            Marrakech
+                            <?= $reservation['city'] ?>
                         </p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
                         <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
                             <span class="block text-xs text-gray-400 uppercase font-bold">Check-in</span>
-                            <span class="font-semibold text-gray-800">Oct 24</span>
+                            <span class="font-semibold text-gray-800"><?= $reservation['check_in'] ?></span>
                         </div>
                         <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
                             <span class="block text-xs text-gray-400 uppercase font-bold">Check-out</span>
-                            <span class="font-semibold text-gray-800">Oct 29</span>
+                            <span class="font-semibold text-gray-800"><?= $reservation['check_out'] ?></span>
                         </div>
                     </div>
 
@@ -71,6 +85,7 @@
 
                 </div>
             </div>
+            <?php endforeach; ?>
             </div>
         </main>
 

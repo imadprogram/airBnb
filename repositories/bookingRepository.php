@@ -29,14 +29,16 @@ class bookingRepository {
         ]);
     }
 
-    public function getAll($user_id , $rental_id) {
-        $sql = "SELECT * FROM reservation WHERE user_id = :user_id , rental_id = :rental_id";
+    public function getAll($user_id) {
+        $sql = "SELECT reservations.*, rentals.*
+        FROM reservations
+        JOIN rentals ON reservations.rental_id = rentals.id
+        WHERE reservations.user_id = :user_id";
 
         $stmt = $this->connection->prepare($sql);
 
         $stmt->execute([
             'user_id' => $user_id,
-            'rental_id' => $rental_id
         ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

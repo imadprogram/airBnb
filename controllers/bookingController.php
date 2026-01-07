@@ -58,7 +58,9 @@ class BookingController {
                 }
     }
 
-    
+    public function getAll() {
+        return $this->bookingRepo->getAll($_SESSION['user_id']);
+    }
 }
 
 
