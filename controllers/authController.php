@@ -54,6 +54,7 @@ class AuthController {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['name'] = $user['first_name'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['email'] = $email;
 
             if($user['role'] == 'host'){
                 header('Location: ../views/host_dashboard.php');

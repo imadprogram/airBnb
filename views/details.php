@@ -25,6 +25,7 @@ $reviews = $reviewControl->getAll();
     <title>Sunny Loft - Airbnb Clone</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style>
         .star-anim {
             transition: transform 0.2s, color 0.2s;
@@ -327,8 +328,10 @@ $reviews = $reviewControl->getAll();
                 </button>
             </div>
         </div>
-
+        
     </main>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <?php include('partials/toast.php') ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
