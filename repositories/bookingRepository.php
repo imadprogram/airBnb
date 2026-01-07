@@ -3,6 +3,7 @@
 namespace Ycode\AirBnb\Repositories;
 
 use Ycode\AirBnb\Core\Database;
+use PDO;
 
 
 class bookingRepository {
@@ -26,5 +27,18 @@ class bookingRepository {
             'check_out' => $check_out,
             'status' => $status
         ]);
+    }
+
+    public function getAll($user_id , $rental_id) {
+        $sql = "SELECT * FROM reservation WHERE user_id = :user_id , rental_id = :rental_id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute([
+            'user_id' => $user_id,
+            'rental_id' => $rental_id
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

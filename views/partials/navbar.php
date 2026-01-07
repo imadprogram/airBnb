@@ -36,7 +36,7 @@
                         <?php if (isset($_SESSION['user_id'])): ?>
 
                             <div class="py-2">
-                                <a href="#" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+                                <a href="../views/myTrips.php" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
                                     <i class="fa-solid fa-suitcase mr-3 text-gray-400"></i> My Trips
                                 </a>
                                 <a href="#" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">

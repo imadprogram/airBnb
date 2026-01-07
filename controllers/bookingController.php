@@ -57,7 +57,13 @@ class BookingController {
                 exit;
                 }
     }
+
+    
 }
+
+
+
+
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $bookControl = new BookingController;
