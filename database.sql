@@ -48,4 +48,4 @@ CREATE TABLE favorites(
     FOREIGN KEY (rental_id) REFERENCES rentals(id)
 )
 
-SELECT * FROM reviews;
+SELECT * FROM reservations;

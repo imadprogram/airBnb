@@ -143,16 +143,18 @@ $reviews = $reviewControl->getAll();
                             </div>
                         </div>
 
-                        <form action="../controllers/BookingController.php" method="POST" class="space-y-4">
+                        <form action="../controllers/bookingController.php" method="POST" class="space-y-4">
+                            <input type="hidden" name="action" value="book">
+                            <input type="hidden" name="rental_id" value="<?= $rental['id'] ?>">
 
                             <div class="grid grid-cols-2 border border-gray-400 rounded-lg overflow-hidden">
                                 <div class="p-3 border-r border-gray-400 hover:bg-gray-50 cursor-pointer relative">
                                     <label class="block text-[10px] font-bold uppercase text-gray-800 tracking-wider">Check-in</label>
-                                    <input type="date" name="check_in" class="w-full text-sm outline-none bg-transparent text-gray-600 cursor-pointer font-sans">
+                                    <input required type="date" name="check_in" class="w-full text-sm outline-none bg-transparent text-gray-600 cursor-pointer font-sans">
                                 </div>
                                 <div class="p-3 hover:bg-gray-50 cursor-pointer relative">
                                     <label class="block text-[10px] font-bold uppercase text-gray-800 tracking-wider">Check-out</label>
-                                    <input type="date" name="check_out" class="w-full text-sm outline-none bg-transparent text-gray-600 cursor-pointer font-sans">
+                                    <input required type="date" name="check_out" class="w-full text-sm outline-none bg-transparent text-gray-600 cursor-pointer font-sans">
                                 </div>
                             </div>
 
