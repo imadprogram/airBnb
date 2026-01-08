@@ -8,12 +8,28 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Ycode\AirBnb\Controllers\RentalController;
 use Ycode\AirBnb\Controllers\ReviewController;
+use Ycode\AirBnb\Repositories\bookingRepository;
 
 $controll = new RentalController;
 $rental = $controll->getDetails();
 
+
 $reviewControl = new ReviewController;
 $reviews = $reviewControl->getAll();
+
+
+$bookingRepo = new bookingRepository;
+$current_bookings = $bookingRepo->getBookedDate($_GET['id']);
+$taken_dates = [];
+if (!empty($current_bookings)) {
+    foreach($current_bookings as $booking){ 
+        $taken_dates[] = [
+            'from' => $booking['check_in'], 
+            'to'   => $booking['check_out']
+        ];
+    }
+}
+$json_taken_dates = json_encode($taken_dates);
 
 ?>
 <!DOCTYPE html>
@@ -26,9 +42,66 @@ $reviews = $reviewControl->getAll();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/rangePlugin.js"></script>
+
     <style>
-        .star-anim {
-            transition: transform 0.2s, color 0.2s;
+
+        .flatpickr-calendar {
+            width: auto !important;
+            max-width: none !important;
+            border-radius: 16px !important; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2) !important;
+            padding: 20px !important;
+        }
+
+    
+        .flatpickr-day.selected, 
+        .flatpickr-day.startRange, 
+        .flatpickr-day.endRange, 
+        .flatpickr-day.selected.inRange, 
+        .flatpickr-day.startRange.inRange, 
+        .flatpickr-day.endRange.inRange {
+            background: #222222 !important; 
+            border-color: #222222 !important;
+            color: #fff !important;
+            border-radius: 50%; 
+        }
+
+        .flatpickr-day.inRange {
+            background: #F7F7F7 !important;
+            border-color: #F7F7F7 !important;
+            color: #222222 !important;
+            box-shadow: -5px 0 0 #F7F7F7, 5px 0 0 #F7F7F7;
+        }
+
+        .flatpickr-day.flatpickr-disabled, 
+        .flatpickr-day.flatpickr-disabled:hover {
+            color: #b0b0b0 !important;
+            text-decoration: line-through !important; 
+            background: transparent !important;
+            border-color: transparent !important;
+        }
+
+        .flatpickr-day.today {
+            border-color: transparent !important;
+            font-weight: bold;
+            color: #222222;
+        }
+        
+        .flatpickr-calendar::before, .flatpickr-calendar::after {
+            display: none !important;
+        }
+
+        .flatpickr-month {
+            margin-bottom: 10px;
+        }
+        .flatpickr-current-month {
+            font-size: 16px; 
+            font-weight: 600;
         }
     </style>
 </head>
@@ -148,14 +221,15 @@ $reviews = $reviewControl->getAll();
                             <input type="hidden" name="action" value="book">
                             <input type="hidden" name="rental_id" value="<?= $rental['id'] ?>">
 
-                            <div class="grid grid-cols-2 border border-gray-400 rounded-lg overflow-hidden">
-                                <div class="p-3 border-r border-gray-400 hover:bg-gray-50 cursor-pointer relative">
+                            <div class="grid grid-cols-2 gap-2 relative">
+                                <div class="border rounded-l-lg p-2 hover:bg-gray-100 transition cursor-pointer">
                                     <label class="block text-[10px] font-bold uppercase text-gray-800 tracking-wider">Check-in</label>
-                                    <input required type="date" name="check_in" class="w-full text-sm outline-none bg-transparent text-gray-600 cursor-pointer font-sans">
+                                    <input type="text" id="check-in" name="check_in" placeholder="Add date" class="w-full text-sm outline-none bg-transparent cursor-pointer text-gray-600 placeholder-gray-400" required autocomplete="off">
                                 </div>
-                                <div class="p-3 hover:bg-gray-50 cursor-pointer relative">
+                                
+                                <div class="border rounded-r-lg p-2 hover:bg-gray-100 transition cursor-pointer">
                                     <label class="block text-[10px] font-bold uppercase text-gray-800 tracking-wider">Check-out</label>
-                                    <input required type="date" name="check_out" class="w-full text-sm outline-none bg-transparent text-gray-600 cursor-pointer font-sans">
+                                    <input type="text" id="check-out" name="check_out" placeholder="Add date" class="w-full text-sm outline-none bg-transparent cursor-pointer text-gray-600 placeholder-gray-400" required autocomplete="off">
                                 </div>
                             </div>
 
@@ -330,10 +404,12 @@ $reviews = $reviewControl->getAll();
         </div>
         
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <?php include('partials/toast.php') ?>
 
     <script>
+        // stars logic
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('#star-container .fa-star');
             const ratingInput = document.getElementById('rating-value');
@@ -359,6 +435,39 @@ $reviews = $reviewControl->getAll();
                     s.classList.toggle('text-gray-300', s.getAttribute('data-value') > value);
                 });
             }
+        });
+        // end stars logic
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Get PHP Data
+            const blockedDates = <?= $json_taken_dates ?: '[]' ?>;
+
+            // 2. Initialize Single Flatpickr with Range Plugin
+            flatpickr("#check-in", {
+                mode: "range",              // Tells it to pick a start and end
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                disable: blockedDates,      // Blocks the reserved dates
+                showMonths: 2,              // Show 2 months side-by-side
+                
+                // This plugin automatically puts the "End Date" into the second input
+                plugins: [new rangePlugin({ input: "#check-out"})],
+                
+                // Airbnb config: Open immediately? No, let user click.
+                animate: true,
+                
+                onChange: function(selectedDates, dateStr, instance) {
+                    // Optional: You can calculate price here if you want
+                    if (selectedDates.length === 2) {
+                        const nights = (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24);
+                        console.log("Nights selected:", nights);
+                    }
+                }
+            });
+
         });
     </script>
 </body>

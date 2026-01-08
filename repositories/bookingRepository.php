@@ -43,4 +43,16 @@ class bookingRepository {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function getBookedDate($rental_id) {
+        $sql = "SELECT check_in , check_out FROM reservations WHERE rental_id = :rental_id AND status != 'cancelled'";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute([
+            'rental_id' => $rental_id
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
