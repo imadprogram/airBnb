@@ -49,16 +49,15 @@ class bookingRepository {
     }
 
     public function getAll($user_id) {
-        $sql = "SELECT reservations.*, rentals.*
-        FROM reservations
-        JOIN rentals ON reservations.rental_id = rentals.id
-        WHERE reservations.user_id = :user_id";
+        $sql = "SELECT reservations.*, rentals.*, reservations.id AS reservation_id
+                FROM reservations
+                JOIN rentals ON reservations.rental_id = rentals.id
+                WHERE reservations.user_id = :user_id";
 
         $stmt = $this->connection->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
 
-        $stmt->execute([
-            'user_id' => $user_id,
-        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -73,5 +72,25 @@ class bookingRepository {
         ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getById($id) {
+        $sql = "SELECT * FROM reservations WHERE id = :id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute([
+            'id' => $id
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function cancel($id) {
+        $sql = "UPDATE reservations SET status = 'cancelled' WHERE id = :id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        return $stmt->execute(['id' => $id]);
     }
 }

@@ -5,6 +5,9 @@ namespace Ycode\AirBnb\Repositories;
 use Ycode\AirBnb\Core\Database;
 use Ycode\AirBnb\Entities\User;
 use PDO;
+use Ycode\AirBnb\Entities\Admin;
+use Ycode\AirBnb\Entities\Host;
+use Ycode\AirBnb\Entities\Traveler;
 
 class UserRepository {
     private $connection;
@@ -26,7 +29,15 @@ class UserRepository {
 
         if(!$row) return null;
 
-        
+        if($row['role'] == 'host'){
+            return new Host($row['first_name'] , $row['last_name'] , $row['email'] , $row['password'] , $row['id']);
+        }else if($row['role'] == 'traveler'){
+            return new Traveler($row['first_name'] , $row['last_name'] , $row['email'] , $row['password'] , $row['id']);
+        }else if($row['role'] == 'admin'){
+            return new Admin($row['first_name'] , $row['last_name'] , $row['email'] , $row['password'] , $row['id']);
+        }
+
+        return null;
     }
 
     public function findByEmail($email) {

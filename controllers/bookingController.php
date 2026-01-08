@@ -11,6 +11,7 @@ if(session_status() == PHP_SESSION_NONE){
 use Ycode\AirBnb\Repositories\bookingRepository;
 use Ycode\AirBnb\Repositories\RentalRepository;
 use Ycode\AirBnb\Services\MailService;
+use Ycode\AirBnb\Repositories\UserRepository;
 
 
 
@@ -18,10 +19,12 @@ use Ycode\AirBnb\Services\MailService;
 class BookingController {
     private $bookingRepo;
     private $rentalRepo;
+    private $userRepo;
 
     public function __construct() {
         $this->bookingRepo = new bookingRepository;
         $this->rentalRepo = new RentalRepository;
+        $this->userRepo = new UserRepository;
 
         if(!isset($_SESSION['user_id'])){
             header('Location: ../views/login.php');
@@ -65,6 +68,33 @@ class BookingController {
     public function getAll() {
         return $this->bookingRepo->getAll($_SESSION['user_id']);
     }
+
+    public function cancelBooking() {
+        $reservation_id = $_POST['reservation_id'];
+
+        $reservation = $this->bookingRepo->getById($reservation_id);
+
+        if(!$reservation){
+            $_SESSION['toast'] = ['type' => 'failed', 'message' => 'Reservation not found'];
+            header("Location: ../views/trips.php");
+            exit;
+        }
+
+        $current_user = $this->userRepo->find($_SESSION['user_id']);
+
+        if($current_user && $current_user->canCancel($reservation)){
+            if($this->bookingRepo->cancel($reservation_id)){
+                $_SESSION['toast'] = ['type' => 'success', 'message' => 'Trip cancelled successfully'];
+            }else{
+                $_SESSION['toast'] = ['type' => 'failed', 'message' => 'Error cancelling trip'];
+            }
+        }else{
+            $_SESSION['toast'] = ['type' => 'failed', 'message' => 'Unauthorized action'];
+        }
+
+        header("Location: ../views/myTrips.php");
+        exit;
+    }
 }
 
 
@@ -75,5 +105,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $bookControl = new BookingController;
     if($_POST['action'] === 'book'){
         $bookControl->book();
+    }else if($_POST['action'] === 'cancel_booking'){
+        $bookControl->cancelBooking();
     }
 }
