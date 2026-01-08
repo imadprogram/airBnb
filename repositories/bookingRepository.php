@@ -15,6 +15,25 @@ class bookingRepository {
     }
 
     public function book($user_id , $rental_id , $check_in , $check_out , $status) {
+        $checkSql = "SELECT COUNT(*) FROM reservations 
+                            WHERE rental_id = :rental_id 
+                            AND status != 'cancelled'
+                            AND check_in < :check_out 
+                            AND check_out > :check_in";
+
+        $checkstmt = $this->connection->prepare($checkSql);
+        $checkstmt->execute([
+            'rental_id' => $rental_id,
+            'check_in' => $check_in,
+            'check_out' => $check_out
+        ]);
+
+        $count = $checkstmt->fetch(PDO::FETCH_COLUMN);
+
+        if($count > 0) {
+            return false;
+        }
+
         $sql = "INSERT INTO reservations(user_id , rental_id , check_in , check_out , status)
                 VALUES(:user_id , :rental_id , :check_in , :check_out , :status)";
 

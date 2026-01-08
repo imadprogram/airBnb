@@ -48,6 +48,10 @@ class BookingController {
                     $mail->sendBookingConfirmation($_SESSION['email'] , $_SESSION['name'] , $rental_name , $check_in , $check_out);
                     header("Location: ../views/details.php?id=$rental_id");
                     exit;
+                }else{
+                    $_SESSION['toast'] = [
+                        'type' => 'failed',
+                        'message' => 'those dates are no longer available'];
                 }
             }else{
                 $_SESSION['toast'] = [

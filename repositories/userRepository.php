@@ -13,6 +13,22 @@ class UserRepository {
         $this->connection = Database::getInstance()->getConnection();
     }
 
+    public function find($id) {
+        $sql = "SELECT * FROM users WHERE id = :id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute([
+            'id' => $id
+        ]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(!$row) return null;
+
+        
+    }
+
     public function findByEmail($email) {
         $sql = "SELECT * FROM users WHERE email = :email";
 

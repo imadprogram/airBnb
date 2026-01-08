@@ -7,7 +7,7 @@ class Traveler extends User {
 
     public function __construct($firstName, $lastName, $email, $password, $id = null)
     {
-        return parent::__construct('traveler' , $firstName, $lastName, $email, $password, null , $id);
+        parent::__construct('traveler' , $firstName, $lastName, $email, $password, null , $id);
     }
 
     public function bookRental($rental){
