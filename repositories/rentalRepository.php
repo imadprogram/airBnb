@@ -107,4 +107,21 @@ class RentalRepository {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function count(){
+        $stmt = $this->connection->query("SELECT COUNT(*) FROM rentals");
+        return $stmt->fetchColumn();
+    }
+    // get total numbers of rentals to calculat total pages
+    public function getPaginated($limit , $offset) {
+        $sql = "SELECT * FROM rentals ORDER BY id DESC LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':limit' , (int) $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset' , (int) $offset, \PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

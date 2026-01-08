@@ -4,9 +4,14 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Ycode\AirBnb\Controllers\RentalController;
 
-
 $controller = new RentalController;
-$listings = $controller->getListings();
+
+
+$data = $controller->index(); 
+
+$listings = $data['rentals'];  
+$currentPage = $data['currentPage'];
+$totalPages = $data['totalPages'];  
 ?>
 
 <!DOCTYPE html>
@@ -19,58 +24,6 @@ $listings = $controller->getListings();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-white text-gray-800">
-
-    <!-- <nav class="bg-white border-b border-gray-100 fixed w-full z-50 top-0 h-20">
-        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-full">
-            <div class="flex justify-between items-center h-full">
-                
-                <div class="flex-shrink-0 flex items-center cursor-pointer">
-                    <a href="index.php" class="text-rose-500 text-3xl">
-                        <i class="fa-brands fa-airbnb"></i>
-                        <span class="font-bold text-xl ml-1 hidden md:inline">airbnb</span>
-                    </a>
-                </div>
-
-                <div class="hidden md:flex items-center border border-gray-300 rounded-full py-2.5 px-4 shadow-sm hover:shadow-md transition cursor-pointer">
-                    <div class="text-sm font-semibold px-4 border-r border-gray-300">Anywhere</div>
-                    <div class="text-sm font-semibold px-4 border-r border-gray-300">Any week</div>
-                    <div class="text-sm text-gray-500 px-4">Add guests</div>
-                    <div class="bg-rose-500 text-white p-2 rounded-full">
-                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    
-                    <?php if(isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role'] === 'host'): ?>
-                        <a href="views/host_dashboard.php" class="text-sm font-semibold text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-full transition">
-                            Switch to hosting
-                        </a>
-                    <?php endif; ?>
-
-                    <div class="flex items-center gap-2 border border-gray-300 rounded-full p-1 pl-3 hover:shadow-md transition cursor-pointer relative group">
-                        <i class="fa-solid fa-bars text-gray-500 text-sm"></i>
-                        <div class="bg-gray-500 text-white rounded-full p-1 px-2">
-                            <i class="fa-solid fa-user text-xs"></i>
-                        </div>
-
-                        <div class="absolute right-0 top-12 w-48 bg-white border border-gray-100 rounded-xl shadow-xl hidden group-hover:block overflow-hidden z-50">
-                            <?php if(isset($_SESSION['user_id'])): ?>
-                                <a href="#" class="block px-4 py-3 text-sm font-semibold hover:bg-gray-50">My Trips</a>
-                                <a href="#" class="block px-4 py-3 text-sm hover:bg-gray-50">Account</a>
-                                <div class="h-px bg-gray-200 my-1"></div>
-                                <a href="views/logout.php" class="block px-4 py-3 text-sm text-rose-500 hover:bg-gray-50">Log out</a>
-                            <?php else: ?>
-                                <a href="views/login.php" class="block px-4 py-3 text-sm font-semibold hover:bg-gray-50">Log in</a>
-                                <a href="views/signup.php" class="block px-4 py-3 text-sm hover:bg-gray-50">Sign up</a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </nav> -->
 
     <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
         
@@ -100,7 +53,7 @@ $listings = $controller->getListings();
                     <div class="flex justify-between items-start">
                         <div>
                             <h3 class="font-bold text-gray-900 leading-tight"><?= htmlspecialchars($rental['title']) ?> in <?= htmlspecialchars($rental['city']) ?></h3>
-                            <p class="text-gray-500 text-sm mt-1">Hosted by <?= $rental['host_first_name'] ?></p>
+                            <p class="text-gray-500 text-sm mt-1">Hosted by <?= $rental['host_first_name'] ?? 'Host' ?></p>
                             <div class="mt-2 flex items-baseline gap-1">
                                 <span class="font-bold text-gray-900">$<?= htmlspecialchars($rental['price']) ?></span>
                                 <span class="text-gray-900">night</span>
@@ -115,6 +68,26 @@ $listings = $controller->getListings();
                 </a>
 
                 <?php endforeach; ?>
+            </div>
+
+            <div class="mt-12 flex justify-center items-center gap-4 border-t border-gray-100 pt-8">
+                
+                <?php if($currentPage > 1): ?>
+                    <a href="?page=<?= $currentPage - 1 ?>" class="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-semibold text-gray-700">
+                        <i class="fa-solid fa-chevron-left mr-2"></i> Previous
+                    </a>
+                <?php endif; ?>
+
+                <span class="text-gray-500 text-sm font-medium">
+                    Page <?= $currentPage ?> of <?= $totalPages ?>
+                </span>
+
+                <?php if($currentPage < $totalPages): ?>
+                    <a href="?page=<?= $currentPage + 1 ?>" class="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-semibold text-gray-700">
+                        Next <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </a>
+                <?php endif; ?>
+                
             </div>
 
         <?php endif; ?>
