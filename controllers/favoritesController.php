@@ -29,6 +29,18 @@ class FavoritesController {
                     'message' => 'Added to favorites'];
         }
     }
+
+    public function removeFav() {
+        $user_id = $_SESSION['user_id'];
+        $rental_id = $_POST['rental_id'];
+
+        if($this->favoriteRepo->deleteFav($user_id , $rental_id)){
+            $_SESSION['toast'] = [
+                'type' => 'success',
+                'message' => 'remove from favorites'
+            ];
+        }
+    }
 }
 
 
@@ -38,5 +50,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if($_POST['action'] == 'toggle_favorite'){
         $controll->addFav();
         header('Location: ../views/index.php');
+    }else if($_POST['action'] == 'remove_favorite'){
+        $controll->removeFav();
+        header('Location: ../views/favorites.php');
     }
 }

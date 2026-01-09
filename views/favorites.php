@@ -40,11 +40,15 @@ $favorites = $repo->getFavs($_SESSION['user_id'])
 
             <div class="group cursor-pointer">
                 <div class="relative aspect-square overflow-hidden rounded-xl bg-gray-200 mb-3">
-                    <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=800&auto=format&fit=crop" alt="Listing" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
-                    
-                    <button class="absolute top-3 right-3 z-10 p-2 rounded-full hover:bg-gray-100/10 transition">
-                        <i class="fa-solid fa-heart text-2xl text-rose-500 drop-shadow-sm hover:scale-110 transition"></i>
-                    </button>
+                    <img src="../<?= $fav['image'] ?>" alt="Listing" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
+                    <form action="../controllers/favoritesController.php" method="POST" class="absolute top-3 right-3 z-20">
+                            <input type="hidden" name="action" value="remove_favorite">
+                            <input type="hidden" name="rental_id" value="<?= $fav['rental_id'] ?>">
+                            
+                            <button class="p-2 rounded-full hover:bg-gray-100/10 transition">
+                                <i class="fa-solid fa-heart text-2xl text-rose-500 drop-shadow-sm hover:scale-110 transition"></i>
+                            </button>
+                    </form>
                     
                     <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold shadow-sm">
                         Superhost
@@ -53,14 +57,14 @@ $favorites = $repo->getFavs($_SESSION['user_id'])
 
                 <div>
                     <div class="flex justify-between items-start">
-                        <h3 class="font-bold text-gray-900 truncate">Modern Loft in Paris</h3>
+                        <h3 class="font-bold text-gray-900 truncate"><?= $fav['title'] ?> in <?= $fav['city'] ?></h3>
                         <div class="flex items-center gap-1 text-sm">
                             <i class="fa-solid fa-star text-xs"></i> 4.92
                         </div>
                     </div>
                     <p class="text-gray-500 text-sm"><?= $fav['city'] ?></p>
                     <div class="mt-2 flex items-baseline gap-1">
-                        <span class="font-bold text-gray-900">$120</span>
+                        <span class="font-bold text-gray-900">$<?= $fav['price'] ?></span>
                         <span class="text-gray-900">night</span>
                     </div>
                 </div>
