@@ -20,15 +20,15 @@ class FavoritesController {
 
 
     public function addFav() {
-    $user_id = $_SESSION['user_id'];
-    $rental_id = $_POST['rental_id'];
+        $user_id = $_SESSION['user_id'];
+        $rental_id = $_POST['rental_id'];
 
-    if($this->favoriteRepo->addFav($user_id , $rental_id)) {
-            $_SESSION['toast'] = [
-                'type' => 'success',
-                'message' => 'Added to favorites'];
+        if($this->favoriteRepo->addFav($user_id , $rental_id)) {
+                $_SESSION['toast'] = [
+                    'type' => 'success',
+                    'message' => 'Added to favorites'];
+        }
     }
-}
 }
 
 

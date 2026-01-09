@@ -1,3 +1,17 @@
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+use Ycode\AirBnb\Repositories\FavoritesRepository;
+
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
+}
+
+
+
+$repo = new FavoritesRepository;
+$favorites = $repo->getFavs($_SESSION['user_id'])
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +35,9 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            
+
+            <?php foreach($favorites as $fav): ?>
+
             <div class="group cursor-pointer">
                 <div class="relative aspect-square overflow-hidden rounded-xl bg-gray-200 mb-3">
                     <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=800&auto=format&fit=crop" alt="Listing" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
@@ -42,61 +58,16 @@
                             <i class="fa-solid fa-star text-xs"></i> 4.92
                         </div>
                     </div>
-                    <p class="text-gray-500 text-sm">Paris, France</p>
+                    <p class="text-gray-500 text-sm"><?= $fav['city'] ?></p>
                     <div class="mt-2 flex items-baseline gap-1">
                         <span class="font-bold text-gray-900">$120</span>
                         <span class="text-gray-900">night</span>
                     </div>
                 </div>
             </div>
+            
+            <?php endforeach; ?>
 
-            <div class="group cursor-pointer">
-                <div class="relative aspect-square overflow-hidden rounded-xl bg-gray-200 mb-3">
-                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop" alt="Listing" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
-                    
-                    <button class="absolute top-3 right-3 z-10 p-2">
-                        <i class="fa-solid fa-heart text-2xl text-rose-500 drop-shadow-sm hover:scale-110 transition"></i>
-                    </button>
-                </div>
-
-                <div>
-                    <div class="flex justify-between items-start">
-                        <h3 class="font-bold text-gray-900 truncate">Cozy Cottage</h3>
-                        <div class="flex items-center gap-1 text-sm">
-                            <i class="fa-solid fa-star text-xs"></i> 4.85
-                        </div>
-                    </div>
-                    <p class="text-gray-500 text-sm">Cotswolds, UK</p>
-                    <div class="mt-2 flex items-baseline gap-1">
-                        <span class="font-bold text-gray-900">$85</span>
-                        <span class="text-gray-900">night</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="group cursor-pointer">
-                <div class="relative aspect-square overflow-hidden rounded-xl bg-gray-200 mb-3">
-                    <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=800&auto=format&fit=crop" alt="Listing" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
-                    
-                    <button class="absolute top-3 right-3 z-10 p-2">
-                        <i class="fa-solid fa-heart text-2xl text-rose-500 drop-shadow-sm hover:scale-110 transition"></i>
-                    </button>
-                </div>
-
-                <div>
-                    <div class="flex justify-between items-start">
-                        <h3 class="font-bold text-gray-900 truncate">Beachfront Villa</h3>
-                        <div class="flex items-center gap-1 text-sm">
-                            <i class="fa-solid fa-star text-xs"></i> 5.0
-                        </div>
-                    </div>
-                    <p class="text-gray-500 text-sm">Malibu, California</p>
-                    <div class="mt-2 flex items-baseline gap-1">
-                        <span class="font-bold text-gray-900">$450</span>
-                        <span class="text-gray-900">night</span>
-                    </div>
-                </div>
-            </div>
 
         </div>
 

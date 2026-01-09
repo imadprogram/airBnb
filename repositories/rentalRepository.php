@@ -54,14 +54,32 @@ class RentalRepository {
     }
 
     public function delete($id , $host_id){
+        $sqlRes = "DELETE FROM reservations WHERE rental_id = :id";
+        $stmtRes = $this->connection->prepare($sqlRes);
+        $stmtRes->execute([
+            'id' => $id
+        ]);
+
+
+        $sqlFav = "DELETE FROM favorites WHERE rental_id = :id";
+        $stmtFav = $this->connection->prepare($sqlFav);
+        $stmtFav->execute([
+            'id' => $id
+        ]);
+
+        $sqlRev = "DELETE FROM reviews WHERE rental_id = :id";
+        $stmtRev = $this->connection->prepare($sqlRev);
+        $stmtRev->execute([
+            'id' => $id
+        ]);
+
         $sql = "DELETE FROM rentals WHERE id = :id AND host_id = :host_id";
 
         $stmt = $this->connection->prepare($sql);
 
         return $stmt->execute([
                     'id' => $id,
-                    'host_id' => $host_id
-                ]);
+                    'host_id' => $host_id]);
     }
 
     public function find($id , $host_id){

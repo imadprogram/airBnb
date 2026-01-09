@@ -21,7 +21,24 @@ class FavoritesRepository {
 
     return $stmt->execute([
         'user_id' => $user_id,
-        'rental_id' => $rental_id
-    ]);
+        'rental_id' => $rental_id]);
     }
+
+    public function getFavs($user_id) {
+        $sql = "SELECT favorites.user_id,
+                        rentals.title as title, 
+                        rentals.price as price, 
+                        rentals.city as city, 
+                        rentals.image as image
+                FROM favorites
+                JOIN rentals ON favorites.user_id = rentals.host_id AND favorites.rental_id = rentals.id
+                WHERE favorites.user_id = :user_id AND favorites.rental_id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute(['user_id' => $user_id]);
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

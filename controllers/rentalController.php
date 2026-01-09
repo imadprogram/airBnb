@@ -149,22 +149,22 @@ class RentalController {
 
     // returns the rentals that should be in the each page and how many pages
     public function index() {
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    if($page < 1) $page = 1;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if($page < 1) $page = 1;
 
-    $limit = 9;
-    $offset = ($page - 1) * $limit;
+        $limit = 9;
+        $offset = ($page - 1) * $limit;
 
-    $rentals = $this->rentalRepo->getPaginated($limit, $offset);
-    $totalRentals = $this->rentalRepo->count();
-    $totalPages = ceil($totalRentals / $limit);
+        $rentals = $this->rentalRepo->getPaginated($limit, $offset);
+        $totalRentals = $this->rentalRepo->count();
+        $totalPages = ceil($totalRentals / $limit);
 
-    return [
-        'rentals' => $rentals,
-        'currentPage' => $page,
-        'totalPages' => $totalPages
-    ];
-}
+        return [
+            'rentals' => $rentals,
+            'currentPage' => $page,
+            'totalPages' => $totalPages
+        ];
+    }
 }
 
 
