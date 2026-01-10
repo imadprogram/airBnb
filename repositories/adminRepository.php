@@ -19,7 +19,33 @@ class AdminRepository {
 
         $stmt->execute();
 
-        return $stmt->fetchColumn();
+        $totalUsers = $stmt->fetchColumn();
+
+
+        $sql1 = "SELECT COUNT(*) FROM rentals";
+
+        $stmt1 = $this->connection->prepare($sql1);
+
+        $stmt1->execute();
+
+        $totalRentals = $stmt1->fetchColumn();
+
+
+        $sql2 = "SELECT COUNT(*) FROM reservations";
+
+        $stmt2 = $this->connection->prepare($sql2);
+
+        $stmt2->execute();
+
+        $totalReservations = $stmt2->fetchColumn();
+
+
+
+        return [
+            'totalUsers' => $totalUsers,
+            'totalRentals' => $totalRentals,
+            'totalReservations' => $totalReservations
+        ];
     }
 }
 ?>

@@ -9,7 +9,7 @@ if(session_status() == PHP_SESSION_NONE){
 
 $repo = new AdminRepository;
 
-$usersCount = $repo->getStats();
+$stats = $repo->getStats();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +68,7 @@ $usersCount = $repo->getStats();
                 <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Total Users</p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-1"><?= $usersCount ?></h3>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-1"><?= $stats['totalUsers'] ?></h3>
                     </div>
                     <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-600">
                         <i class="fa-solid fa-users text-xl"></i>
@@ -78,7 +78,7 @@ $usersCount = $repo->getStats();
                 <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Total Listings</p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-1">350</h3>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-1"><?= $stats['totalRentals'] ?></h3>
                     </div>
                     <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center text-purple-600">
                         <i class="fa-solid fa-home text-xl"></i>
@@ -88,7 +88,7 @@ $usersCount = $repo->getStats();
                 <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Reservations</p>
-                        <h3 class="text-2xl font-bold text-gray-900 mt-1">892</h3>
+                        <h3 class="text-2xl font-bold text-gray-900 mt-1"><?= $stats['totalReservations'] ?></h3>
                     </div>
                     <div class="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center text-orange-600">
                         <i class="fa-solid fa-calendar-check text-xl"></i>
