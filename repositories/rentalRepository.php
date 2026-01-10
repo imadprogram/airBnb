@@ -95,19 +95,6 @@ class RentalRepository {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // get all for traveler available rentals
-    public function getAllListings(){
-        $sql = "SELECT rentals.* , users.first_name AS host_first_name
-                FROM rentals
-                JOIN users ON rentals.host_id = users.id";
-
-        $stmt = $this->connection->prepare($sql);
-
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     // find rental details to show them when clicking on the main page
     public function details($id){
         $sql = "SELECT rentals.* ,  users.first_name AS host_first_name ,
@@ -126,20 +113,59 @@ class RentalRepository {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function count(){
-        $stmt = $this->connection->query("SELECT COUNT(*) FROM rentals");
-        return $stmt->fetchColumn();
-    }
-    // get total numbers of rentals to calculat total pages
-    public function getPaginated($limit , $offset) {
-        $sql = "SELECT * FROM rentals ORDER BY id DESC LIMIT :limit OFFSET :offset";
+    public function getFilteredRentals($city, $minPrice, $maxPrice, $limit, $offset) {
+        $sql = "SELECT * FROM rentals WHERE 1=1";
+        $params = [];
+
+        // Apply Filters
+        if (!empty($city)) {
+            $sql .= " AND city LIKE :city";
+            $params['city'] = "%" . $city . "%"; // Wildcard match
+        }
+        if (!empty($minPrice)) {
+            $sql .= " AND price >= :min";
+            $params['min'] = $minPrice;
+        }
+        if (!empty($maxPrice)) {
+            $sql .= " AND price <= :max";
+            $params['max'] = $maxPrice;
+        }
+
+        $sql .= " ORDER BY id DESC LIMIT :limit OFFSET :offset";
 
         $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindValue(':limit' , (int) $limit, \PDO::PARAM_INT);
-        $stmt->bindValue(':offset' , (int) $offset, \PDO::PARAM_INT);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
+
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
 
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // 2. Count the Data (To calculate total pages correctly)
+    public function countFilteredRentals($city, $minPrice, $maxPrice) {
+        $sql = "SELECT COUNT(*) FROM rentals WHERE 1=1";
+        $params = [];
+
+        if (!empty($city)) {
+            $sql .= " AND city LIKE :city";
+            $params['city'] = "%" . $city . "%";
+        }
+        if (!empty($minPrice)) {
+            $sql .= " AND price >= :min";
+            $params['min'] = $minPrice;
+        }
+        if (!empty($maxPrice)) {
+            $sql .= " AND price <= :max";
+            $params['max'] = $maxPrice;
+        }
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchColumn();
     }
 }

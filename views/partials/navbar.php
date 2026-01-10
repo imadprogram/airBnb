@@ -9,14 +9,28 @@
                 </a>
             </div>
 
-            <div class="hidden md:flex items-center border border-gray-300 rounded-full py-2.5 px-4 shadow-sm hover:shadow-md transition cursor-pointer">
-                <div class="text-sm font-semibold px-4 border-r border-gray-300">Anywhere</div>
-                <div class="text-sm font-semibold px-4 border-r border-gray-300">Any week</div>
-                <div class="text-sm text-gray-500 px-4">Add guests</div>
-                <div class="bg-rose-500 text-white p-2 rounded-full">
-                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+            <form action="../views/index.php" method="GET" class="hidden md:flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition cursor-pointer h-12">
+                
+                <div class="pl-5 pr-2 border-r border-gray-300 h-full flex items-center">
+                    <input type="text" name="city" placeholder="Anywhere" 
+                           class="bg-transparent outline-none text-sm text-gray-900 placeholder-gray-500 w-28 font-semibold truncate">
                 </div>
-            </div>
+
+                <div class="px-3 border-r border-gray-300 h-full flex items-center gap-2">
+                    <input type="number" name="min_price" placeholder="Min $" min="0" 
+                           class="bg-transparent outline-none text-sm text-gray-900 placeholder-gray-500 w-16 text-center appearance-none">
+                    <span class="text-gray-300">-</span>
+                    <input type="number" name="max_price" placeholder="Max $" min="0" 
+                           class="bg-transparent outline-none text-sm text-gray-900 placeholder-gray-500 w-16 text-center appearance-none">
+                </div>
+
+                <div class="pl-2 pr-2 h-full flex items-center">
+                    <button type="submit" class="bg-rose-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-rose-600 transition">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                    </button>
+                </div>
+
+            </form>
 
             <div class="flex items-center gap-4">
 
@@ -85,7 +99,7 @@
 
     // Close when clicking outside
     window.onclick = function(event) {
-        if (!event.target.closest('button') && !event.target.closest('#user-dropdown')) {
+        if (!event.target.closest('button') && !event.target.closest('#user-dropdown') && !event.target.closest('form')) {
             const menu = document.getElementById('user-dropdown');
             if (menu && !menu.classList.contains('hidden')) {
                 menu.classList.add('hidden');

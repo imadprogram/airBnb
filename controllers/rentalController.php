@@ -137,10 +137,6 @@ class RentalController {
         }
     }
 
-    // for traveler
-    public function getListings(){
-        return $this->rentalRepo->getAllListings();
-    }
 
     public function getDetails(){
 
@@ -149,14 +145,22 @@ class RentalController {
 
     // returns the rentals that should be in the each page and how many pages
     public function index() {
+        // Get Pagination info
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         if($page < 1) $page = 1;
+
+        // Get Search info
+        $city = isset($_GET['city']) ? $_GET['city'] : null;
+        $min = isset($_GET['min_price']) && $_GET['min_price'] !== '' ? $_GET['min_price'] : null;
+        $max = isset($_GET['max_price']) && $_GET['max_price'] !== '' ? $_GET['max_price'] : null;
 
         $limit = 9;
         $offset = ($page - 1) * $limit;
 
-        $rentals = $this->rentalRepo->getPaginated($limit, $offset);
-        $totalRentals = $this->rentalRepo->count();
+        // Call the NEW Combined Methods
+        $rentals = $this->rentalRepo->getFilteredRentals($city, $min, $max, $limit, $offset);
+        $totalRentals = $this->rentalRepo->countFilteredRentals($city, $min, $max);
+        
         $totalPages = ceil($totalRentals / $limit);
 
         return [
