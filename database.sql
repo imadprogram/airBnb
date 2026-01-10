@@ -9,6 +9,9 @@ CREATE TABLE users(
     role ENUM('admin','traveler','host') NOT NULL,
     company_name VARCHAR(255) NULL
 );
+UPDATE users 
+SET role = 'admin' 
+WHERE email = 'admin123@gmail.com';
 ALTER TABLE users DROP COLUMN company_name;
 ALTER TABLE users ADD COLUMN status ENUM('active','banned') NOT NULL DEFAULT 'active';
 CREATE TABLE rentals(
@@ -48,4 +51,4 @@ CREATE TABLE favorites(
     FOREIGN KEY (rental_id) REFERENCES rentals(id)
 )
 
-SELECT * FROM favorites;
+SELECT * FROM users;

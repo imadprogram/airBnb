@@ -60,7 +60,7 @@ class AuthController {
                 header('Location: ../views/host_dashboard.php');
             }else if($user['role'] == 'traveler'){
                 header('Location: ../views/index.php');
-            }else{
+            }else if($user['role'] == 'admin'){
                 header('Location: ../views/admin_dashboard.php');
             }
             exit;

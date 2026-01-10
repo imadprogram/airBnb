@@ -157,7 +157,7 @@ class RentalController {
         $limit = 9;
         $offset = ($page - 1) * $limit;
 
-        // Call the NEW Combined Methods
+        
         $rentals = $this->rentalRepo->getFilteredRentals($city, $min, $max, $limit, $offset);
         $totalRentals = $this->rentalRepo->countFilteredRentals($city, $min, $max);
         
