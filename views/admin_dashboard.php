@@ -250,38 +250,61 @@ $stats = $controll->dashboard();
                 <div class="px-6 py-4 border-b border-gray-100">
                     <h2 class="text-lg font-bold text-gray-900">Manage Reservations</h2>
                 </div>
-                <div class="overflow-x-auto">
+
+                <div class="overflow-x-auto overflow-y-auto max-h-96">
                     <table class="w-full text-left text-sm text-gray-600">
-                        <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-500">
+
+                        <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-500 sticky top-0 z-10">
                             <tr>
-                                <th class="px-6 py-4">ID</th>
-                                <th class="px-6 py-4">Listing</th>
-                                <th class="px-6 py-4">Dates</th>
-                                <th class="px-6 py-4">Status</th>
-                                <th class="px-6 py-4 text-right">Actions</th>
+                                <th class="px-6 py-4 bg-gray-50">ID</th>
+                                <th class="px-6 py-4 bg-gray-50">Listing</th>
+                                <th class="px-6 py-4 bg-gray-50">Dates</th>
+                                <th class="px-6 py-4 bg-gray-50">Status</th>
+                                <th class="px-6 py-4 text-right bg-gray-50">Actions</th>
                             </tr>
                         </thead>
+
                         <tbody class="divide-y divide-gray-100">
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4">#5521</td>
-                                <td class="px-6 py-4">Beach House</td>
-                                <td class="px-6 py-4">Oct 12 - Oct 15</td>
-                                <td class="px-6 py-4"><span class="bg-green-100 text-green-700 py-1 px-3 rounded-full text-xs font-bold">Confirmed</span></td>
-                                <td class="px-6 py-4 text-right">
-                                    <form action="../controllers/AdminController.php" method="POST" onsubmit="return confirm('Force cancel this reservation?');">
-                                        <input type="hidden" name="action" value="cancel_reservation">
-                                        <input type="hidden" name="reservation_id" value="5521">
-                                        <button type="submit" class="text-rose-500 hover:text-rose-700 font-medium text-xs underline decoration-rose-200 hover:decoration-rose-500 transition">
-                                            Force Cancel
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                            <?php foreach ($stats['reservations'] as $res): ?>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-mono text-xs">
+                                        #<?= $res['id'] ?>
+                                    </td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">
+                                        <?= htmlspecialchars($res['title']) ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <?= date('M d', strtotime($res['check_in'])) ?> - <?= date('M d', strtotime($res['check_out'])) ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <?php if ($res['status'] === 'confirmed'): ?>
+                                            <span class="bg-green-100 text-green-700 py-1 px-3 rounded-full text-xs font-bold">Confirmed</span>
+                                        <?php elseif ($res['status'] === 'cancelled'): ?>
+                                            <span class="bg-gray-100 text-gray-500 py-1 px-3 rounded-full text-xs font-bold">Cancelled</span>
+                                        <?php else: ?>
+                                            <span class="bg-yellow-100 text-yellow-700 py-1 px-3 rounded-full text-xs font-bold"><?= ucfirst($res['status']) ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <?php if ($res['status'] !== 'cancelled'): ?>
+                                            <form action="../controllers/AdminController.php" method="POST" onsubmit="return confirm('Force cancel this reservation?');">
+                                                <input type="hidden" name="action" value="cancel_reservation">
+                                                <input type="hidden" name="reservation_id" value="<?= $res['id'] ?>">
+                                                <button type="submit" class="text-rose-500 hover:text-rose-700 font-medium text-xs underline decoration-rose-200 hover:decoration-rose-500 transition">
+                                                    Force Cancel
+                                                </button>
+                                            </form>
+                                        <?php else: ?>
+                                            <span class="text-gray-400 text-xs italic">No actions</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-
+            <!-- here -->
         </main>
     </div>
 

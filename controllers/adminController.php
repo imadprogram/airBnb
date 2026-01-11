@@ -22,7 +22,8 @@ class AdminController {
         return [
             'stats' => $this->adminRepo->getStats(),
             'allusers' => $this->adminRepo->getUsers(),
-            'listings' => $this->adminRepo->getListings()
+            'listings' => $this->adminRepo->getListings(),
+            'reservations' => $this->adminRepo->getReservations()
         ];
     }
 }

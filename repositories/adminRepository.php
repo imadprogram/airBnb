@@ -69,5 +69,17 @@ class AdminRepository {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getReservations() {
+        $sql = "SELECT reservations.* , rentals.title
+                FROM reservations
+                JOIN rentals ON reservations.rental_id = rentals.id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
