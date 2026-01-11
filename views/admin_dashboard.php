@@ -205,36 +205,47 @@ $stats = $controll->dashboard();
                 <div class="px-6 py-4 border-b border-gray-100">
                     <h2 class="text-lg font-bold text-gray-900">Manage Listings</h2>
                 </div>
-                <div class="overflow-x-auto">
+
+                <div class="overflow-x-auto overflow-y-auto max-h-96">
                     <table class="w-full text-left text-sm text-gray-600">
-                        <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-500">
+
+                        <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-500 sticky top-0 z-10">
                             <tr>
-                                <th class="px-6 py-4">Listing</th>
-                                <th class="px-6 py-4">Host</th>
-                                <th class="px-6 py-4">Status</th>
-                                <th class="px-6 py-4 text-right">Actions</th>
+                                <th class="px-6 py-4 bg-gray-50">Listing</th>
+                                <th class="px-6 py-4 bg-gray-50">Host</th>
+                                <th class="px-6 py-4 bg-gray-50">Status</th>
+                                <th class="px-6 py-4 text-right bg-gray-50">Actions</th>
                             </tr>
                         </thead>
+
                         <tbody class="divide-y divide-gray-100">
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 font-medium text-gray-900">Cozy Apartment in NYC</td>
-                                <td class="px-6 py-4">Jane Smith</td>
-                                <td class="px-6 py-4"><span class="bg-green-100 text-green-700 py-1 px-3 rounded-full text-xs font-bold">Visible</span></td>
-                                <td class="px-6 py-4 text-right">
-                                    <form action="../controllers/AdminController.php" method="POST">
-                                        <input type="hidden" name="action" value="hide_listing">
-                                        <input type="hidden" name="rental_id" value="101">
-                                        <button type="submit" class="text-rose-500 hover:text-rose-700 font-medium text-xs border border-rose-200 bg-rose-50 px-3 py-1 rounded hover:bg-rose-100 transition">
-                                            Hide Listing
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                            <?php foreach ($stats['listings'] as $rental): ?>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-medium text-gray-900">
+                                        <?= htmlspecialchars($rental['title']) ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <?= htmlspecialchars($rental['first_name'] . ' ' . $rental['last_name']) ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-green-100 text-green-700 py-1 px-3 rounded-full text-xs font-bold">Visible</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <form action="../controllers/AdminController.php" method="POST" onsubmit="return confirm('Are you sure you want to hide this listing?');">
+                                            <input type="hidden" name="action" value="hide_listing">
+                                            <input type="hidden" name="rental_id" value="<?= $rental['id'] ?>">
+                                            <button type="submit" class="text-rose-500 hover:text-rose-700 font-medium text-xs border border-rose-200 bg-rose-50 px-3 py-1 rounded hover:bg-rose-100 transition">
+                                                Hide Listing
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-
+            <!-- here -->
             <div id="bookings" class="bg-white rounded-xl border border-gray-200 shadow-sm mb-10 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100">
                     <h2 class="text-lg font-bold text-gray-900">Manage Reservations</h2>

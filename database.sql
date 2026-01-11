@@ -7,12 +7,10 @@ CREATE TABLE users(
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('admin','traveler','host') NOT NULL,
-    company_name VARCHAR(255) NULL
 );
 UPDATE users 
 SET role = 'admin' 
 WHERE email = 'admin123@gmail.com';
-ALTER TABLE users DROP COLUMN company_name;
 ALTER TABLE users ADD COLUMN status ENUM('active','banned') NOT NULL DEFAULT 'active';
 CREATE TABLE rentals(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -22,6 +20,7 @@ CREATE TABLE rentals(
     city VARCHAR(255) NOT NULL,
     FOREIGN KEY (host_id) REFERENCES users(id)
 );
+ALTER TABLE rentals ADD COLUMN status ENUM('active' , 'hidden') NOT NULL DEFAULT 'active';
 ALTER TABLE rentals ADD COLUMN image VARCHAR(255);
 CREATE TABLE reservations(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -51,4 +50,4 @@ CREATE TABLE favorites(
     FOREIGN KEY (rental_id) REFERENCES rentals(id)
 )
 
-SELECT * FROM users;
+SELECT * FROM rentals;

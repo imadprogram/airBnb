@@ -48,9 +48,20 @@ class AdminRepository {
         ];
     }
 
-
     public function getUsers() {
         $sql = "SELECT * FROM users";
+
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getListings() {
+        $sql = "SELECT rentals.* , users.first_name , users.last_name
+                FROM rentals
+                JOIN users ON rentals.host_id = users.id";
 
         $stmt = $this->connection->prepare($sql);
 

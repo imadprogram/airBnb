@@ -21,7 +21,8 @@ class AdminController {
     public function dashboard() {
         return [
             'stats' => $this->adminRepo->getStats(),
-            'allusers' => $this->adminRepo->getUsers()
+            'allusers' => $this->adminRepo->getUsers(),
+            'listings' => $this->adminRepo->getListings()
         ];
     }
 }
