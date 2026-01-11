@@ -26,4 +26,32 @@ class AdminController {
             'reservations' => $this->adminRepo->getReservations()
         ];
     }
+
+    public function suspend() {
+        $user_id = $_POST['user_id'];
+
+        $this->adminRepo->suspendUser($user_id);
+    }
+
+    public function activate() {
+        $user_id = $_POST['user_id'];
+
+        $this->adminRepo->activateUser($user_id);
+    }
+}
+
+
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $adminControl = new AdminController;
+    if(isset($_POST['action'])){
+        if($_POST['action'] == 'suspend_user'){
+            $adminControl->suspend();
+            header('Location: ../views/admin_dashboard.php');
+        }
+        if($_POST['action'] == 'activate_user'){
+            $adminControl->activate();
+            header('Location: ../views/admin_dashboard.php');
+        }
+    }
 }

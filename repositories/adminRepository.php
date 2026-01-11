@@ -82,5 +82,21 @@ class AdminRepository {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function suspendUser($id) {
+        $sql = "UPDATE users SET status = 'banned' WHERE id = :id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        return $stmt->execute(['id' => $id]);
+    }
+
+    public function activateUser($id) {
+        $sql = "UPDATE users SET status = 'active' WHERE id = :id";
+
+        $stmt = $this->connection->prepare($sql);
+
+        return $stmt->execute(['id' => $id]);
+    }
 }
 ?>
