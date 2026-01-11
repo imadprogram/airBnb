@@ -18,7 +18,10 @@ class AdminController {
         $this->adminRepo = new AdminRepository;
     }
 
-    public function countUsers() {
-       
+    public function dashboard() {
+        return [
+            'stats' => $this->adminRepo->getStats(),
+            'allusers' => $this->adminRepo->getUsers()
+        ];
     }
 }
