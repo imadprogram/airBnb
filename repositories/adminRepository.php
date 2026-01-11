@@ -71,9 +71,10 @@ class AdminRepository {
     }
 
     public function getReservations() {
-        $sql = "SELECT reservations.* , rentals.title
+        $sql = "SELECT reservations.* , rentals.title , users.first_name , users.last_name
                 FROM reservations
-                JOIN rentals ON reservations.rental_id = rentals.id";
+                JOIN rentals ON reservations.rental_id = rentals.id
+                JOIN users ON reservations.user_id = users.id";
 
         $stmt = $this->connection->prepare($sql);
 

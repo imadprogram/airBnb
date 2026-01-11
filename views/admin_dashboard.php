@@ -258,6 +258,7 @@ $stats = $controll->dashboard();
                             <tr>
                                 <th class="px-6 py-4 bg-gray-50">ID</th>
                                 <th class="px-6 py-4 bg-gray-50">Listing</th>
+                                <th class="px-6 py-4 bg-gray-50">Booked By</th>
                                 <th class="px-6 py-4 bg-gray-50">Dates</th>
                                 <th class="px-6 py-4 bg-gray-50">Status</th>
                                 <th class="px-6 py-4 text-right bg-gray-50">Actions</th>
@@ -273,6 +274,13 @@ $stats = $controll->dashboard();
                                     <td class="px-6 py-4 font-medium text-gray-900">
                                         <?= htmlspecialchars($res['title']) ?>
                                     </td>
+
+                                    <td class="px-6 py-4">
+                                        <div class="font-medium text-gray-900">
+                                            <?= htmlspecialchars($res['first_name'] . ' ' . $res['last_name']) ?>
+                                        </div>
+                                    </td>
+
                                     <td class="px-6 py-4">
                                         <?= date('M d', strtotime($res['check_in'])) ?> - <?= date('M d', strtotime($res['check_out'])) ?>
                                     </td>
